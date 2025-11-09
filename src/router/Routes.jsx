@@ -9,11 +9,13 @@ import Explore from "../pages/Explore";
 import AddArtwork from "../pages/AddArtwork";
 import MyGallery from "../pages/MyGallery";
 import Favorites from "../pages/Favorites";
+import ErrorPage from "../pages/ErrorPage";
 
 export const Routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         index: true,

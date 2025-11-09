@@ -28,13 +28,13 @@ const Navbar = () => {
       {user && (
         <>
           <li>
-            <NavLink to="myGallery">My Gallery</NavLink>
+            <NavLink to="/arts/myGallery">My Gallery</NavLink>
           </li>
           <li>
-            <NavLink to="addArtWork">Add Artwork</NavLink>
+            <NavLink to="/arts/addArtWork">Add Artwork</NavLink>
           </li>
           <li>
-            <NavLink to="favorites">My Favorites</NavLink>
+            <NavLink to="/arts/favorites">My Favorites</NavLink>
           </li>
         </>
       )}
