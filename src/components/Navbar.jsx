@@ -28,13 +28,13 @@ const Navbar = () => {
       {user && (
         <>
           <li>
-            <NavLink to="/myProducts">My Products</NavLink>
+            <NavLink to="myGallery">My Gallery</NavLink>
           </li>
           <li>
-            <NavLink to="/myBids">My Bids</NavLink>
+            <NavLink to="addArtWork">Add Artwork</NavLink>
           </li>
           <li>
-            <NavLink to="/createAProduct">Create A Product</NavLink>
+            <NavLink to="favorites">My Favorites</NavLink>
           </li>
         </>
       )}
