@@ -20,10 +20,6 @@
   --color-secondary: oklch(70% 0.25 30);
   --color-secondary-content: oklch(98% 0.01 30);
 
-  /* 💛 Accent – golden yellow for hover highlights */
-  --color-accent: oklch(0.9132 0.1233 95);
-  --color-accent-content: oklch(20% 0.05 95);
-
   /* ⚫ Neutral – clean typography contrast */
   --color-neutral: oklch(35% 0.05 260);
   --color-neutral-content: oklch(96% 0.01 260);
