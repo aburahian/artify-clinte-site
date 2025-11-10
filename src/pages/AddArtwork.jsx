@@ -31,7 +31,7 @@ const AddArtwork = () => {
       createdAt: new Date(),
       likes: 0,
     };
-    axiosInstance.post("/artsWork", addArt).then((res) => {
+    axiosInstance.post("/artWorks", addArt).then((res) => {
       if (res.data.insertedId) {
         toast.success("Artwork added successfully!");
         e.target.reset();
