@@ -26,7 +26,7 @@ const ArtCard = ({ art }) => {
 
         <div className="mt-4">
           <Link
-            to={`/artworks/${art._id}`}
+            to={`/arts/art/${art._id}`}
             className="btn btn-sm btn-primary w-full"
           >
             View Details

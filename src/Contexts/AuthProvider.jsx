@@ -10,10 +10,23 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.init";
+import useAxios from "../Hook/useAxios";
+
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosInstance = useAxios();
+
+  useEffect(() => {
+    const userData = {
+      email: user?.email,
+      displayName: user?.displayName,
+      photoURL: user?.photoURL,
+      createdAt: new Date(),
+    };
+    axiosInstance.post("/users", userData);
+  }, [user, axiosInstance]);
 
   const createUser = (email, password) => {
     setLoading(true);

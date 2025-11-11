@@ -8,6 +8,7 @@ const Explore = () => {
   const axiosInstance = useAxiosSecure();
   const [arts, setArts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -18,6 +19,7 @@ const Explore = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     const query = e.target.search.value;
+    setQuery(query);
     setLoading(true);
     axiosInstance.get(`/search?search=${query}`).then((res) => {
       setArts(res.data);
@@ -42,14 +44,14 @@ const Explore = () => {
         </form>
       </div>
       <div className="border-b-2 border-primary my-9"></div>
-      {arts.length === 0 ? (
-        <NotFound></NotFound>
-      ) : loading ? (
+      {loading ? (
         <Spinner></Spinner>
+      ) : query.length > 0 && arts.length === 0 ? (
+        <NotFound></NotFound>
       ) : (
-        <div className="grid gap-my-9 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-9 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {arts.map((art) => (
-            <ArtCard art={art}></ArtCard>
+            <ArtCard key={art._id} art={art}></ArtCard>
           ))}
         </div>
       )}

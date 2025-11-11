@@ -10,6 +10,9 @@ import AddArtwork from "../pages/AddArtwork";
 import MyGallery from "../pages/MyGallery";
 import Favorites from "../pages/Favorites";
 import ErrorPage from "../pages/ErrorPage";
+import ArtDetails from "../pages/ArtDetails";
+import PrivateRoute from "./PrivateRoute";
+import ArtistDetails from "../pages/ArtistDetails";
 
 export const Routes = createBrowserRouter([
   {
@@ -30,6 +33,22 @@ export const Routes = createBrowserRouter([
       {
         index: true,
         element: <Explore></Explore>,
+      },
+      {
+        path: "art/:id",
+        element: (
+          <PrivateRoute>
+            <ArtDetails></ArtDetails>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "art/artist/:email",
+        element: (
+          <PrivateRoute>
+            <ArtistDetails></ArtistDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: "addArtWork",
