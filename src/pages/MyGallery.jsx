@@ -4,6 +4,8 @@ import useAxiosSecure from "../Hook/useAxiosSecure";
 
 import Spinner from "../components/Spinner";
 import Swal from "sweetalert2";
+import NotFound from "./NotFound";
+import { Link } from "react-router";
 
 const MyGallery = () => {
   const { user } = useAuth();
@@ -85,6 +87,18 @@ const MyGallery = () => {
       <div className="border-b-2 border-primary my-9"></div>
       {loading ? (
         <Spinner></Spinner>
+      ) : arts.length === 0 ? (
+        <div className="flex flex-col items-center justify-center h-screen bg-base-100 text-center px-4">
+          <h2 className="text-3xl sm:text-4xl text-secondary font-bold my-4">
+            Add your artworks.
+          </h2>
+          <Link
+            to={"/arts/addArtWork"}
+            className="inline-block px-8 py-3 bg-primary hover:bg-secondary rounded-full font-semibold shadow-md transition-all duration-300"
+          >
+            Add Artworks
+          </Link>
+        </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {arts.map((art) => (
