@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../Hook/useAuth";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 const Login = () => {
   const { signInWithGoogle, setUser, setLoading, signInUser } = useAuth();
@@ -13,17 +13,38 @@ const Login = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+
+    setLoading(true);
     signInUser(email, password)
       .then((res) => {
         setUser(res.user);
         setLoading(false);
         setError("");
-        toast.success("Registration successful! 🎉");
+        toast.success("Welcome back to Artify! 👋");
         navigate("/");
       })
       .catch((error) => {
-        toast.error("Registration failed: " + error.message);
-        setError("Registration failed. Please try again.");
+        setLoading(false);
+        toast.error("Login failed: " + error.message);
+        setError("Invalid email or password.");
+      });
+  };
+
+  const handleDemoLogin = (role) => {
+    const email = role === 'admin' ? 'admin@artify.com' : 'user@artify.com';
+    const password = 'Password123!';
+
+    setLoading(true);
+    signInUser(email, password)
+      .then((res) => {
+        setUser(res.user);
+        setLoading(false);
+        toast.success(`Logged in as Demo ${role.charAt(0).toUpperCase() + role.slice(1)}! 🚀`);
+        navigate("/");
+      })
+      .catch(() => {
+        setLoading(false);
+        toast.error("Demo login failed. Please use manual registration.");
       });
   };
 
@@ -33,44 +54,46 @@ const Login = () => {
       .then((res) => {
         setUser(res.user);
         setLoading(false);
-        setError("");
-        toast.success("Registration successful! 🎉");
+        toast.success("Logged in with Google! 🎨");
         navigate("/");
       })
       .catch((error) => {
-        toast.error("Registration failed: " + error.message);
-        setError("Registration failed. Please try again.");
+        setLoading(false);
+        toast.error("Google login failed: " + error.message);
       });
   };
-  return (
-    <div className="min-h-screen flex items-center justify-center  py-7">
-      <div className="bg-base-100 p-10 rounded-2xl shadow-lg w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center text-primary mb-6">
-          Login to Artify
-        </h2>
 
-        <form onSubmit={handleEmailSingIn} className="space-y-5">
-          <div>
-            <label className="label">
-              <span className="label-text font-semibold">Email</span>
-            </label>
+  return (
+    <div className="min-h-[90vh] flex items-center justify-center px-4 py-12 bg-linear-to-br from-primary/5 via-base-100 to-secondary/5">
+      <div className="bg-base-100 p-8 md:p-12 rounded-[2.5rem] shadow-2xl w-full max-w-lg border border-base-200">
+        <div className="text-center mb-10">
+          <h2 className="text-4xl font-black text-base-content tracking-tight mb-2">
+            Welcome Back
+          </h2>
+          <p className="text-base-content/60 font-medium">Please enter your details to sign in</p>
+        </div>
+
+        <form onSubmit={handleEmailSingIn} className="space-y-6">
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-base-content/80 ml-1">Email Address</label>
             <input
               type="email"
-              placeholder="your email"
-              className="input input-bordered w-full"
+              placeholder="name@example.com"
+              className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
               name="email"
               required
             />
           </div>
 
-          <div>
-            <label className="label">
-              <span className="label-text font-semibold">Password</span>
-            </label>
+          <div className="space-y-2">
+            <div className="flex justify-between items-center px-1">
+              <label className="text-sm font-bold text-base-content/80">Password</label>
+              <a href="#" className="text-xs font-bold text-primary hover:underline">Forgot password?</a>
+            </div>
             <input
               type="password"
-              placeholder="********"
-              className="input input-bordered w-full"
+              placeholder="••••••••"
+              className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
               name="password"
               required
             />
@@ -78,30 +101,50 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-primary hover:bg-secondary text-white py-3 rounded-full font-semibold transition"
+            className="w-full bg-primary hover:bg-primary/90 text-white h-14 rounded-2xl font-bold shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            Login
+            Sign In
           </button>
-          {error ? <p className="text-secondary">{error}</p> : ""}
+          {error && <p className="text-red-500 text-sm text-center font-medium bg-red-50 py-2 rounded-xl">{error}</p>}
         </form>
 
-        <div className="divider">OR</div>
+        <div className="divider my-8 text-base-content/30 text-xs font-bold uppercase tracking-widest">Or continue with</div>
 
-        <button
-          onClick={handleGoogleSignup}
-          className="w-full border-2 border-gray-300 hover:bg-base-200 py-3 rounded-full flex items-center justify-center gap-3 transition"
-        >
-          <FcGoogle size={24} /> Continue with Google
-        </button>
-
-        <p className="mt-6 text-center text-sm text-gray-500">
-          Don't have an account?{" "}
-          <a
-            href="/auth/register"
-            className="text-primary font-semibold hover:underline"
+        <div className="grid grid-cols-1 gap-4">
+          <button
+            onClick={handleGoogleSignup}
+            className="w-full h-14 border-2 border-base-300 hover:border-primary/30 hover:bg-base-200 rounded-2xl flex items-center justify-center gap-3 font-bold transition-all"
           >
-            Register
-          </a>
+            <FcGoogle size={24} /> Google
+          </button>
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-base-200">
+          <p className="text-center text-xs font-bold text-base-content/40 uppercase tracking-widest mb-4">Demo Credentials</p>
+          <div className="flex gap-4">
+            <button
+              onClick={() => handleDemoLogin('user')}
+              className="flex-1 h-12 bg-base-200 hover:bg-base-300 rounded-xl text-xs font-black uppercase tracking-tighter transition-colors"
+            >
+              Demo User
+            </button>
+            <button
+              onClick={() => handleDemoLogin('admin')}
+              className="flex-1 h-12 bg-base-200 hover:bg-base-300 rounded-xl text-xs font-black uppercase tracking-tighter transition-colors"
+            >
+              Demo Admin
+            </button>
+          </div>
+        </div>
+
+        <p className="mt-10 text-center text-sm font-medium text-base-content/60">
+          New to Artify?{" "}
+          <Link
+            to="/auth/register"
+            className="text-primary font-bold hover:underline"
+          >
+            Create an account
+          </Link>
         </p>
       </div>
     </div>

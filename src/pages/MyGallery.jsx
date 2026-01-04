@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FaPlus, FaImage } from "react-icons/fa6";
 import useAuth from "../Hook/useAuth";
 import useAxiosSecure from "../Hook/useAxiosSecure";
-
 import Spinner from "../components/Spinner";
 import Swal from "sweetalert2";
-import NotFound from "./NotFound";
 import { Link } from "react-router";
 
 const MyGallery = () => {
@@ -19,6 +18,7 @@ const MyGallery = () => {
     image: "",
     description: "",
   });
+
   useEffect(() => {
     if (!user) return;
     setLoading(true);
@@ -28,8 +28,12 @@ const MyGallery = () => {
         setArts(res.data);
         setLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, [user, axiosInstance]);
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -43,15 +47,16 @@ const MyGallery = () => {
       if (result.isConfirmed) {
         axiosInstance.delete(`/artworks/${id}`).then(() => {
           setArts((prev) => prev.filter((art) => art._id !== id));
-        });
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your artwork has been deleted.",
+            icon: "success",
+          });
         });
       }
     });
   };
+
   const openUpdateModal = (art) => {
     setSelectedArt(art);
     setUpdatedData({
@@ -82,130 +87,144 @@ const MyGallery = () => {
   };
 
   return (
-    <div className="w-11/12 mx-auto py-12">
-      <h1 className="text-3xl text-primary font-bold mb-8">My Gallery</h1>
-      <div className="border-b-2 border-primary my-9"></div>
+    <div className="space-y-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h2 className="text-3xl font-black text-base-content tracking-tight">My Collection</h2>
+          <p className="text-base-content/60 font-medium">Manage and showcase your personal masterpieces</p>
+        </div>
+        <Link
+          to="/dashboard/add-artwork"
+          className="btn btn-primary h-14 rounded-2xl px-8 font-bold shadow-lg shadow-primary/20 flex items-center gap-2"
+        >
+          <FaPlus /> Add New Work
+        </Link>
+      </div>
+
       {loading ? (
-        <Spinner></Spinner>
+        <div className="min-h-[400px] flex items-center justify-center">
+          <Spinner />
+        </div>
       ) : arts.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-screen bg-base-100 text-center px-4">
-          <h2 className="text-3xl sm:text-4xl text-secondary font-bold my-4">
-            Add your artworks.
-          </h2>
+        <div className="min-h-[400px] flex flex-col items-center justify-center bg-base-100 rounded-[3rem] border-2 border-dashed border-base-300 text-center p-12">
+          <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-6">
+            <FaImage size={40} />
+          </div>
+          <h2 className="text-2xl font-black mb-4">Your gallery is empty</h2>
+          <p className="text-base-content/60 max-w-sm mb-10 italic">Start sharing your creativity with the world by adding your first artwork today.</p>
           <Link
-            to={"/arts/addArtWork"}
-            className="inline-block px-8 py-3 bg-primary hover:bg-secondary rounded-full font-semibold shadow-md transition-all duration-300"
+            to="/dashboard/add-artwork"
+            className="btn btn-primary h-14 rounded-2xl px-10 font-bold shadow-xl shadow-primary/20"
           >
-            Add Artworks
+            Create First Artwork
           </Link>
         </div>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {arts.map((art) => (
             <div
               key={art._id}
-              className="flex flex-col justify-between p-4 rounded-lg shadow-lg bg-base-100"
+              className="group bg-base-100 rounded-3xl overflow-hidden border border-base-200 hover:border-primary/30 transition-all duration-300 shadow-sm hover:shadow-xl"
             >
-              <img
-                src={art.image}
-                alt={art.title}
-                className="w-full h-64 object-cover rounded-md mb-4"
-              />
-              <h2 className="text-xl font-bold">{art.title}</h2>
-              <p className="text-gray-600">{art.medium}</p>
-              <div className="flex gap-2 mt-4">
-                <button
-                  onClick={() => openUpdateModal(art)}
-                  className="btn btn-primary btn-sm"
-                >
-                  Update
-                </button>
-                <button
-                  onClick={() => handleDelete(art._id)}
-                  className="btn btn-error btn-sm"
-                >
-                  Delete
-                </button>
+              <div className="aspect-square relative overflow-hidden">
+                <img
+                  src={art.image}
+                  alt={art.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-black text-primary shadow-sm">
+                  {art.category}
+                </div>
+              </div>
+              <div className="p-8">
+                <h2 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors">{art.title}</h2>
+                <p className="text-sm text-base-content/50 mb-6 italic">{art.medium}</p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => openUpdateModal(art)}
+                    className="flex-1 h-12 bg-primary/10 hover:bg-primary text-primary hover:text-white font-bold rounded-xl transition-all"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(art._id)}
+                    className="flex-1 h-12 bg-red-50 hover:bg-red-500 text-red-500 hover:text-white font-bold rounded-xl transition-all"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      <dialog id="update_modal" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-primary text-lg mb-4 text-center">
-            Update Artwork
-          </h3>
-
-          <div className="form-control mb-3">
-            <label className="label">
-              <span className="label-text">Title</span>
-            </label>
-            <input
-              type="text"
-              value={updatedData.title}
-              onChange={(e) =>
-                setUpdatedData({ ...updatedData, title: e.target.value })
-              }
-              className="input input-bordered w-full"
-            />
+      <dialog id="update_modal" className="modal backdrop-blur-sm">
+        <div className="modal-box max-w-2xl rounded-[3rem] p-12 bg-base-100 border border-base-200 shadow-2xl">
+          <div className="text-center mb-10">
+            <h3 className="text-3xl font-black mb-2">Update Artwork</h3>
+            <p className="text-base-content/60 font-medium">Refine your masterpiece details</p>
           </div>
 
-          <div className="form-control mb-3">
-            <label className="label">
-              <span className="label-text">Medium</span>
-            </label>
-            <input
-              type="text"
-              value={updatedData.medium}
-              onChange={(e) =>
-                setUpdatedData({ ...updatedData, medium: e.target.value })
-              }
-              className="input input-bordered w-full"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Title</label>
+              <input
+                type="text"
+                value={updatedData.title}
+                onChange={(e) => setUpdatedData({ ...updatedData, title: e.target.value })}
+                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Medium</label>
+              <input
+                type="text"
+                value={updatedData.medium}
+                onChange={(e) => setUpdatedData({ ...updatedData, medium: e.target.value })}
+                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Image URL</label>
+              <input
+                type="text"
+                value={updatedData.image}
+                onChange={(e) => setUpdatedData({ ...updatedData, image: e.target.value })}
+                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Description</label>
+              <textarea
+                value={updatedData.description}
+                rows={4}
+                onChange={(e) => setUpdatedData({ ...updatedData, description: e.target.value })}
+                className="textarea textarea-bordered w-full rounded-2xl focus:outline-primary transition-all p-6"
+              />
+            </div>
           </div>
 
-          <div className="form-control mb-3">
-            <label className="label">
-              <span className="label-text">Image URL</span>
-            </label>
-            <input
-              type="text"
-              value={updatedData.image}
-              onChange={(e) =>
-                setUpdatedData({ ...updatedData, image: e.target.value })
-              }
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div className="form-control mb-3">
-            <label className="label">
-              <span className="label-text">Description</span>
-            </label>
-            <textarea
-              value={updatedData.description}
-              rows={4}
-              onChange={(e) =>
-                setUpdatedData({ ...updatedData, description: e.target.value })
-              }
-              className="textarea textarea-bordered w-full"
-            />
-          </div>
-
-          <div className="modal-action">
-            <form method="dialog" className="flex gap-2">
-              <button className="btn" onClick={() => setSelectedArt(null)}>
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleUpdate}
-                className="btn btn-primary"
-              >
-                Save
-              </button>
-            </form>
+          <div className="flex flex-col sm:flex-row gap-4 mt-12">
+            <button
+              className="btn h-14 rounded-2xl flex-1 font-bold"
+              onClick={() => {
+                document.getElementById("update_modal").close();
+                setSelectedArt(null);
+              }}
+            >
+              Discard Changes
+            </button>
+            <button
+              type="button"
+              onClick={handleUpdate}
+              className="btn btn-primary h-14 rounded-2xl flex-1 font-bold shadow-lg shadow-primary/20"
+            >
+              Save Updates
+            </button>
           </div>
         </div>
       </dialog>

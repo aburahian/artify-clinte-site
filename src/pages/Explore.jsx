@@ -37,46 +37,71 @@ const Explore = () => {
     });
   };
   return (
-    <div className="w-11/12 mx-auto ">
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4  my-8">
-        <h2 className="text-3xl font-extrabold text-primary">
-          Explore Artworks
-        </h2>
+    <div className="w-11/12 mx-auto pb-24">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 my-16">
+        <div className="max-w-xl">
+          <h2 className="text-4xl md:text-5xl font-black text-base-content tracking-tight mb-4">
+            Explore Masterpieces
+          </h2>
+          <p className="text-base-content/60 text-lg">
+            Discover a curated collection of digital and physical art from creators around the globe.
+          </p>
+        </div>
 
-        <form onSubmit={handleSearch}>
-          <input
-            type="text"
-            name="search"
-            placeholder="Search by title or artist..."
-            className="input input-bordered w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <input type="submit" value="Search" className="btn bg-primary" />
-        </form>
+        <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+          <div className="relative grow">
+            <form onSubmit={handleSearch} className="flex gap-2">
+              <input
+                type="text"
+                name="search"
+                placeholder="Search art, artists..."
+                className="input input-bordered h-14 rounded-2xl w-full sm:w-80 focus:outline-primary transition-all pr-12"
+              />
+              <button type="submit" className="btn btn-primary h-14 rounded-2xl px-8 shadow-lg shadow-primary/20">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div className="mb-6">
-        <label className="mr-3 font-semibold">Filter by Category:</label>
-        <select
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-          className="select select-bordered w-64"
-        >
-          <option disabled>Select Category</option>
-          <option>Digital Art</option>
-          <option>Illustration</option>
-          <option>Photography</option>
-          <option>Painting</option>
-          <option>3D Model</option>
-        </select>
+
+      <div className="flex flex-wrap gap-4 mb-12 items-center p-6 bg-base-200 rounded-3xl border border-base-300">
+        <span className="text-sm font-bold uppercase tracking-widest text-base-content/40 mr-2">Filters:</span>
+
+        <div className="flex flex-wrap gap-3">
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="select select-bordered h-12 rounded-xl bg-base-100 min-w-[200px] border-base-300 focus:outline-primary"
+          >
+            <option value="">All Categories</option>
+            <option>Digital Art</option>
+            <option>Illustration</option>
+            <option>Photography</option>
+            <option>Painting</option>
+            <option>3D Model</option>
+          </select>
+
+          <select className="select select-bordered h-12 rounded-xl bg-base-100 min-w-[150px] border-base-300 focus:outline-primary">
+            <option value="">Sort By</option>
+            <option>Newest First</option>
+            <option>Oldest First</option>
+            <option>Most Popular</option>
+            <option>Price: Low to High</option>
+          </select>
+        </div>
       </div>
-      <div className="border-b-2 border-primary my-9"></div>
+
       {loading ? (
-        <Spinner></Spinner>
+        <div className="min-h-[400px] flex items-center justify-center">
+          <Spinner />
+        </div>
       ) : query.length > 0 && arts.length === 0 ? (
-        <NotFound></NotFound>
+        <NotFound />
       ) : (
-        <div className="grid gap-9 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {arts.map((art) => (
-            <ArtCard key={art._id} art={art}></ArtCard>
+            <ArtCard key={art._id} art={art} />
           ))}
         </div>
       )}

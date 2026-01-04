@@ -13,6 +13,11 @@ import ErrorPage from "../pages/ErrorPage";
 import ArtDetails from "../pages/ArtDetails";
 import PrivateRoute from "./PrivateRoute";
 import ArtistDetails from "../pages/ArtistDetails";
+import DashboardLayout from "../Layout/DashboardLayout";
+import DashboardHome from "../pages/DashboardHome";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+import UserProfile from "../pages/UserProfile";
 
 export const Routes = createBrowserRouter([
   {
@@ -24,6 +29,14 @@ export const Routes = createBrowserRouter([
         index: true,
         element: <Home></Home>,
       },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
     ],
   },
   {
@@ -31,11 +44,15 @@ export const Routes = createBrowserRouter([
     element: <ArtsLayout></ArtsLayout>,
     children: [
       {
-        index: true,
+        index: true, // Keep index true for /arts to render Explore by default
         element: <Explore></Explore>,
       },
       {
-        path: "art/:id",
+        path: "explore", // Add a specific path for explore if needed, but index true already covers /arts
+        element: <Explore></Explore>,
+      },
+      {
+        path: "art/:id", // Keep original path for art details
         element: (
           <PrivateRoute>
             <ArtDetails></ArtDetails>
@@ -78,4 +95,19 @@ export const Routes = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      { index: true, element: <DashboardHome /> },
+      { path: "my-gallery", element: <MyGallery /> },
+      { path: "add-artwork", element: <AddArtwork /> },
+      { path: "favorites", element: <Favorites /> },
+      { path: "profile", element: <UserProfile /> },
+    ]
+  }
 ]);

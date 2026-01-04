@@ -41,111 +41,148 @@ const AddArtwork = () => {
     });
   };
   return (
-    <section className="max-w-2xl mx-auto mt-10 bg-white/70 backdrop-blur-lg p-8 rounded-2xl shadow-lg">
-      <h2 className="text-3xl font-bold text-center mb-6 text-primary">
-        <Typewriter
-          words={[
-            "Add New Artwork",
-            "Show Your Creativity",
-            "Share Your Vision",
-          ]}
-          loop={true}
-          cursor
-          cursorStyle="|"
-          typeSpeed={70}
-          deleteSpeed={50}
-          delaySpeed={1500}
-        />
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <label className="font-semibold ">Title</label>
-        <input
-          type="text"
-          name="title"
-          placeholder="Artwork Title"
-          required
-          className="input input-bordered w-full"
-        />
-        <label className="font-semibold">Image URL</label>
-        <input
-          type="url"
-          name="image"
-          placeholder="Artwork Image URL"
-          required
-          className="input input-bordered w-full"
-        />
-        <label className="font-semibold">Category</label>
-        <select
-          name="category"
-          required
-          className="select select-bordered w-full"
-        >
-          <option disabled>Select Category</option>
-          <option>Digital Art</option>
-          <option>Illustration</option>
-          <option>Photography</option>
-          <option>Painting</option>
-          <option>3D Model</option>
-        </select>
-        <label className="font-semibold">Medium / Tools</label>
-        <input
-          type="text"
-          name="medium"
-          placeholder="Artwork Medium (e.g. Oil on Canvas, Digital, Acrylic)"
-          required
-          className="input input-bordered w-full"
-        />
-        <label className="font-semibold">Dimensions (optional)</label>
-        <input
-          type="text"
-          name="dimensions"
-          placeholder="e.g., 24x36 inches"
-          className="input input-bordered w-full mt-1"
-        />
-        <label className="font-semibold">Price (optional)</label>
-        <input
-          type="number"
-          name="price"
-          placeholder="Enter price (if for sale)"
-          className="input input-bordered w-full mt-1"
-        />
-        <label className="font-semibold">Visibility</label>
-        <select
-          name="visibility"
-          className="select select-bordered w-full mt-1"
-        >
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-        </select>
-        <label className="font-semibold">Description</label>
-        <textarea
-          name="description"
-          placeholder="Write a short description..."
-          rows={4}
-          required
-          className="textarea textarea-bordered w-full"
-        ></textarea>
-        <label className="font-semibold">User Name</label>
-        <input
-          type="text"
-          name="userName"
-          defaultValue={user?.displayName || ""}
-          readOnly
-          className="input input-bordered w-full mt-1  "
-        />
-        <label className="font-semibold">User Email</label>
-        <input
-          type="email"
-          name="userEmail"
-          defaultValue={user?.email || ""}
-          readOnly
-          className="input input-bordered w-full mt-1 "
-        />
-        <button type="submit" className="btn btn-primary w-full">
-          Upload Artwork
-        </button>
-      </form>
-    </section>
+    <div className="max-w-4xl mx-auto pb-20">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl font-black text-base-content tracking-tight mb-4">
+          <Typewriter
+            words={["Publish Your Art", "Share Your Vision", "Connect with Creators"]}
+            loop={true}
+            cursor
+            cursorStyle="_"
+            typeSpeed={70}
+            deleteSpeed={50}
+            delaySpeed={1500}
+          />
+        </h2>
+        <p className="text-base-content/60 font-medium">Your masterpiece deserves the best showcase. Fill in the details below.</p>
+      </div>
+
+      <div className="bg-base-100 p-8 md:p-16 rounded-[3rem] shadow-2xl border border-base-200">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Title */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Artwork Title</label>
+              <input
+                type="text"
+                name="title"
+                placeholder="e.g. Celestial Harmony"
+                required
+                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              />
+            </div>
+
+            {/* Category */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Category</label>
+              <select
+                name="category"
+                required
+                className="select select-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              >
+                <option value="">Select Category</option>
+                <option>Digital Art</option>
+                <option>Illustration</option>
+                <option>Photography</option>
+                <option>Painting</option>
+                <option>3D Model</option>
+              </select>
+            </div>
+
+            {/* Image URL */}
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Artwork Image URL</label>
+              <input
+                type="url"
+                name="image"
+                placeholder="https://example.com/image.jpg"
+                required
+                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              />
+            </div>
+
+            {/* Medium */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Medium / Tools</label>
+              <input
+                type="text"
+                name="medium"
+                placeholder="e.g. Photoshop, Oil, Acrylic"
+                required
+                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              />
+            </div>
+
+            {/* Price */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Price (USD)</label>
+              <input
+                type="number"
+                name="price"
+                placeholder="0.00"
+                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              />
+            </div>
+
+            {/* Dimensions */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Dimensions (Optional)</label>
+              <input
+                type="text"
+                name="dimensions"
+                placeholder="e.g. 24x36 inches"
+                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              />
+            </div>
+
+            {/* Visibility */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Visibility</label>
+              <select
+                name="visibility"
+                className="select select-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+              >
+                <option value="public">Public (Visible to everyone)</option>
+                <option value="private">Private (Only you can see)</option>
+              </select>
+            </div>
+
+            {/* Description */}
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-sm font-bold text-base-content/80 ml-1">Description</label>
+              <textarea
+                name="description"
+                placeholder="Tell the story behind your artwork..."
+                rows={4}
+                required
+                className="textarea textarea-bordered w-full rounded-2xl focus:outline-primary transition-all p-6"
+              ></textarea>
+            </div>
+
+            {/* Artist Info (Read Only) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:col-span-2 p-6 bg-base-200 rounded-3xl border border-base-300 opacity-70">
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-widest text-base-content/40">Posting As</p>
+                <p className="font-bold">{user?.displayName}</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-widest text-base-content/40">Contact Email</p>
+                <p className="font-bold">{user?.email}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end pt-6">
+            <button
+              type="submit"
+              className="btn btn-primary h-16 rounded-2xl px-12 font-black text-lg shadow-2xl shadow-primary/32 transition-all hover:scale-[1.02] active:scale-[0.98] w-full md:w-auto"
+            >
+              Confirm & Publish Artwork
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

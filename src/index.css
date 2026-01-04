@@ -1,35 +1,69 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
-@import "tailwindcss";
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
-}
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-@plugin "daisyui/theme" {
-  name: "artify";
-  default: true;
-  color-scheme: light;
 
-  --color-base-100: oklch(98% 0.015 250);
-  --color-base-200: oklch(94% 0.02 250);
-  --color-base-300: oklch(90% 0.025 250);
-  --color-base-content: oklch(20% 0.05 250);
-  --color-primary: oklch(60% 0.25 280);
-  --color-primary-content: oklch(98% 0.02 280);
-  --color-secondary: oklch(70% 0.25 30);
-  --color-secondary-content: oklch(98% 0.01 30);
+@plugin "daisyui" {
+  themes: light --default, dark;
 }
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@plugin "daisyui/theme" {
+  name: "light";
+  color-scheme: light;
+  --color-primary: #6366f1;
+  /* Indigo 500 */
+  --color-primary-content: #ffffff;
+  --color-secondary: #ec4899;
+  /* Pink 500 */
+  --color-secondary-content: #ffffff;
+  --color-accent: #f59e0b;
+  /* Amber 500 */
+  --color-accent-content: #ffffff;
+  --color-base-100: #ffffff;
+  --color-base-200: #f8fafc;
+  --color-base-300: #f1f5f9;
+  --color-base-content: #1e293b;
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  color-scheme: dark;
+  --color-primary: #818cf8;
+  /* Indigo 400 */
+  --color-primary-content: #ffffff;
+  --color-secondary: #f472b6;
+  /* Pink 400 */
+  --color-secondary-content: #ffffff;
+  --color-accent: #fbbf24;
+  /* Amber 400 */
+  --color-accent-content: #ffffff;
+  --color-base-100: #0f172a;
+  /* Slate 900 */
+  --color-base-200: #1e293b;
+  /* Slate 800 */
+  --color-base-300: #334155;
+  /* Slate 700 */
+  --color-base-content: #f8fafc;
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+}
+
 * {
   font-family: "Poppins", sans-serif;
 }
+
 .image-gallery-slide img {
-  height: 450px;        
-  object-fit: cover;   
-  border-radius: 12px;   
+  height: 450px;
+  object-fit: cover;
+  border-radius: 12px;
 }
 
 @media (max-width: 768px) {
   .image-gallery-slide img {
-    height: 300px;  
+    height: 300px;
   }
 }

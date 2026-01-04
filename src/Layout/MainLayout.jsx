@@ -9,14 +9,12 @@ import ArtGallery from "../pages/ArtGallery";
 
 const MainLayout = () => {
   return (
-    <div className="bg-base-100">
-      <Navbar></Navbar>
-      <Banner></Banner>
-      <Outlet></Outlet>
-      <TopArtists></TopArtists>
-      <CommunityHighlights></CommunityHighlights>
-      <ArtGallery></ArtGallery>
-      <Footer></Footer>
+    <div className="min-h-screen bg-base-100 flex flex-col">
+      <Navbar />
+      <main className="grow">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   );
 };
