@@ -4,41 +4,32 @@ import useAxiosSecure from "../Hook/useAxiosSecure";
 import { toast } from "react-toastify";
 import { Typewriter } from "react-simple-typewriter";
 
+import { useForm } from "react-hook-form";
+
 const AddArtwork = () => {
   const { user } = useAuth();
   const axiosInstance = useAxiosSecure();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const title = e.target.title.value;
-    const image = e.target.image.value;
-    const category = e.target.category.value;
-    const description = e.target.description.value;
-    const medium = e.target.medium.value || null;
-    const dimensions = e.target.dimensions.value || null;
-    const price = e.target.price.value || null;
-    const visibility = e.target.visibility.value;
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
 
+  const onSubmit = async (data) => {
     const addArt = {
-      title,
-      image,
-      category,
-      description,
-      medium,
-      dimensions,
-      price,
-      visibility,
+      ...data,
       artistName: user?.displayName || "Unknown Artist",
       artistEmail: user?.email,
       createdAt: new Date(),
     };
-    axiosInstance.post("/artWorks", addArt).then((res) => {
+
+    try {
+      const res = await axiosInstance.post("/artworks", addArt);
       if (res.data.insertedId) {
-        toast.success("Artwork added successfully!");
-        e.target.reset();
+        toast.success("Artwork added successfully! ✨");
+        reset();
       } else {
         toast.error("Failed to add artwork. Try again!");
       }
-    });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred while publishing.");
+    }
   };
   return (
     <div className="max-w-4xl mx-auto pb-20">
@@ -58,27 +49,26 @@ const AddArtwork = () => {
       </div>
 
       <div className="bg-base-100 p-8 md:p-16 rounded-[3rem] shadow-2xl border border-base-200">
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Title */}
             <div className="space-y-2">
               <label className="text-sm font-bold text-base-content/80 ml-1">Artwork Title</label>
               <input
                 type="text"
-                name="title"
+                {...register("title", { required: "Title is required", minLength: { value: 3, message: "Too short" } })}
                 placeholder="e.g. Celestial Harmony"
-                required
-                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+                className={`input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6 ${errors.title ? 'border-red-500' : ''}`}
               />
+              {errors.title && <p className="text-red-500 text-xs font-bold ml-1">{errors.title.message}</p>}
             </div>
 
             {/* Category */}
             <div className="space-y-2">
               <label className="text-sm font-bold text-base-content/80 ml-1">Category</label>
               <select
-                name="category"
-                required
-                className="select select-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+                {...register("category", { required: "Category is required" })}
+                className={`select select-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6 ${errors.category ? 'border-red-500' : ''}`}
               >
                 <option value="">Select Category</option>
                 <option>Digital Art</option>
@@ -87,6 +77,7 @@ const AddArtwork = () => {
                 <option>Painting</option>
                 <option>3D Model</option>
               </select>
+              {errors.category && <p className="text-red-500 text-xs font-bold ml-1">{errors.category.message}</p>}
             </div>
 
             {/* Image URL */}
@@ -94,11 +85,11 @@ const AddArtwork = () => {
               <label className="text-sm font-bold text-base-content/80 ml-1">Artwork Image URL</label>
               <input
                 type="url"
-                name="image"
+                {...register("image", { required: "Image URL is required" })}
                 placeholder="https://example.com/image.jpg"
-                required
-                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+                className={`input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6 ${errors.image ? 'border-red-500' : ''}`}
               />
+              {errors.image && <p className="text-red-500 text-xs font-bold ml-1">{errors.image.message}</p>}
             </div>
 
             {/* Medium */}
@@ -106,11 +97,11 @@ const AddArtwork = () => {
               <label className="text-sm font-bold text-base-content/80 ml-1">Medium / Tools</label>
               <input
                 type="text"
-                name="medium"
+                {...register("medium", { required: "Medium is required" })}
                 placeholder="e.g. Photoshop, Oil, Acrylic"
-                required
-                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+                className={`input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6 ${errors.medium ? 'border-red-500' : ''}`}
               />
+              {errors.medium && <p className="text-red-500 text-xs font-bold ml-1">{errors.medium.message}</p>}
             </div>
 
             {/* Price */}
@@ -118,10 +109,11 @@ const AddArtwork = () => {
               <label className="text-sm font-bold text-base-content/80 ml-1">Price (USD)</label>
               <input
                 type="number"
-                name="price"
+                {...register("price", { required: "Price is required", min: { value: 0, message: "Price must be positive" } })}
                 placeholder="0.00"
-                className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
+                className={`input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6 ${errors.price ? 'border-red-500' : ''}`}
               />
+              {errors.price && <p className="text-red-500 text-xs font-bold ml-1">{errors.price.message}</p>}
             </div>
 
             {/* Dimensions */}
@@ -129,7 +121,7 @@ const AddArtwork = () => {
               <label className="text-sm font-bold text-base-content/80 ml-1">Dimensions (Optional)</label>
               <input
                 type="text"
-                name="dimensions"
+                {...register("dimensions")}
                 placeholder="e.g. 24x36 inches"
                 className="input input-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
               />
@@ -139,7 +131,7 @@ const AddArtwork = () => {
             <div className="space-y-2">
               <label className="text-sm font-bold text-base-content/80 ml-1">Visibility</label>
               <select
-                name="visibility"
+                {...register("visibility")}
                 className="select select-bordered w-full h-14 rounded-2xl focus:outline-primary transition-all px-6"
               >
                 <option value="public">Public (Visible to everyone)</option>
@@ -151,12 +143,12 @@ const AddArtwork = () => {
             <div className="space-y-2 md:col-span-2">
               <label className="text-sm font-bold text-base-content/80 ml-1">Description</label>
               <textarea
-                name="description"
+                {...register("description", { required: "Description is required", minLength: { value: 20, message: "Please provide a bit more detail" } })}
                 placeholder="Tell the story behind your artwork..."
                 rows={4}
-                required
-                className="textarea textarea-bordered w-full rounded-2xl focus:outline-primary transition-all p-6"
+                className={`textarea textarea-bordered w-full rounded-2xl focus:outline-primary transition-all p-6 ${errors.description ? 'border-red-500' : ''}`}
               ></textarea>
+              {errors.description && <p className="text-red-500 text-xs font-bold ml-1">{errors.description.message}</p>}
             </div>
 
             {/* Artist Info (Read Only) */}
@@ -175,9 +167,11 @@ const AddArtwork = () => {
           <div className="flex justify-end pt-6">
             <button
               type="submit"
-              className="btn btn-primary h-16 rounded-2xl px-12 font-black text-lg shadow-2xl shadow-primary/32 transition-all hover:scale-[1.02] active:scale-[0.98] w-full md:w-auto"
+              disabled={isSubmitting}
+              className="btn btn-primary h-16 rounded-2xl px-12 font-black text-lg shadow-2xl shadow-primary/32 transition-all hover:scale-[1.02] active:scale-[0.98] w-full md:w-auto flex items-center gap-3"
             >
-              Confirm & Publish Artwork
+              {isSubmitting ? <span className="loading loading-spinner"></span> : null}
+              {isSubmitting ? "Publishing..." : "Confirm & Publish Artwork"}
             </button>
           </div>
         </form>

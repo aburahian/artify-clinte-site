@@ -18,6 +18,7 @@ import DashboardHome from "../pages/DashboardHome";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import UserProfile from "../pages/UserProfile";
+import Community from "../pages/Community";
 
 export const Routes = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const Routes = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "community",
+        element: <Community />,
       },
       {
         path: "contact",
@@ -66,18 +71,6 @@ export const Routes = createBrowserRouter([
             <ArtistDetails></ArtistDetails>
           </PrivateRoute>
         ),
-      },
-      {
-        path: "addArtWork",
-        element: <AddArtwork></AddArtwork>,
-      },
-      {
-        path: "myGallery",
-        element: <MyGallery></MyGallery>,
-      },
-      {
-        path: "favorites",
-        element: <Favorites></Favorites>,
       },
     ],
   },

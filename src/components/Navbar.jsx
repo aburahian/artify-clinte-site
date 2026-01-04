@@ -50,6 +50,16 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
+          to="/community"
+          className={({ isActive }) =>
+            isActive ? "border-b-2 border-primary font-bold" : "font-semibold"
+          }
+        >
+          Community
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
           to="/about"
           className={({ isActive }) =>
             isActive ? "border-b-2 border-primary font-bold" : "font-semibold"

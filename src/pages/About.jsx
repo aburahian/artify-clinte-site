@@ -146,7 +146,7 @@ const About = () => {
                         Join as Artist
                     </Link>
                     <Link
-                        to="/gallery"
+                        to="/arts"
                         className="btn btn-outline border-white text-white h-16 px-12 rounded-2xl font-black shadow-lg"
                     >
                         Explore Gallery

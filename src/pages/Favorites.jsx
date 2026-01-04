@@ -54,12 +54,12 @@ const Favorites = () => {
           </div>
           <h2 className="text-2xl font-black mb-4">No favorites yet</h2>
           <p className="text-base-content/60 max-w-sm mb-10 italic">Explore the gallery and save artworks that inspire you to see them here.</p>
-          <a
-            href="/explore"
+          <Link
+            to="/arts"
             className="btn btn-primary h-14 rounded-2xl px-10 font-bold shadow-xl shadow-primary/20"
           >
             Explore Artworks
-          </a>
+          </Link>
         </div>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -89,12 +89,12 @@ const Favorites = () => {
                 <h2 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors">{art.title}</h2>
                 <p className="text-sm text-base-content/50 mb-6 italic">{art.medium}</p>
                 <div className="flex gap-3">
-                  <a
-                    href={`/art-details/${art._id}`}
+                  <Link
+                    to={`/arts/art/${art._id}`}
                     className="flex-1 h-12 bg-primary/10 hover:bg-primary text-primary hover:text-white font-bold rounded-xl transition-all flex items-center justify-center"
                   >
                     View Details
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

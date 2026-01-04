@@ -115,18 +115,48 @@ const DashboardLayout = () => {
                         <h1 className="text-xl font-black tracking-tight">Dashboard</h1>
                     </div>
 
-                    <div className="flex items-center gap-4">
-                        <div className="text-right hidden sm:block">
-                            <p className="text-sm font-bold">{user?.displayName}</p>
-                            <p className="text-[10px] text-primary font-black uppercase tracking-widest leading-none">
-                                {isAdmin ? 'Administrator' : 'Artist'}
-                            </p>
+                    <div className="dropdown dropdown-end">
+                        <div tabIndex={0} role="button" className="flex items-center gap-4 cursor-pointer group">
+                            <div className="text-right hidden sm:block">
+                                <p className="text-sm font-bold group-hover:text-primary transition-colors">{user?.displayName}</p>
+                                <p className="text-[10px] text-primary font-black uppercase tracking-widest leading-none">
+                                    {isAdmin ? 'Administrator' : 'Artist'}
+                                </p>
+                            </div>
+                            <img
+                                src={user?.photoURL || "https://i.ibb.co/5vFdhSM/default-avatar.png"}
+                                alt="Avatar"
+                                className="w-12 h-12 rounded-2xl ring-2 ring-primary/20 ring-offset-2 ring-offset-base-100 group-hover:ring-primary transition-all"
+                            />
                         </div>
-                        <img
-                            src={user?.photoURL || "https://i.ibb.co/5vFdhSM/default-avatar.png"}
-                            alt="Avatar"
-                            className="w-12 h-12 rounded-2xl ring-2 ring-primary/20 ring-offset-2 ring-offset-base-100"
-                        />
+                        <ul tabIndex={0} className="dropdown-content z-[70] menu p-2 shadow-2xl bg-base-100 border border-base-200 rounded-3xl w-60 mt-4 animate-in fade-in zoom-in duration-200">
+                            <li className="menu-title px-4 py-2 font-black text-xs uppercase tracking-widest opacity-40">User Menu</li>
+                            <li>
+                                <Link to="/dashboard/profile" className="flex items-center gap-3 py-4 px-4 rounded-2xl font-bold hover:bg-base-200">
+                                    <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                                        <FaUser size={14} />
+                                    </div>
+                                    <span>My Profile</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/dashboard" className="flex items-center gap-3 py-4 px-4 rounded-2xl font-bold hover:bg-base-200">
+                                    <div className="w-8 h-8 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500">
+                                        <FaChartLine size={14} />
+                                    </div>
+                                    <span>Dashboard Home</span>
+                                </Link>
+                            </li>
+                            <div className="divider my-1 opacity-50 px-4"></div>
+                            <li>
+                                <button onClick={handleLogout} className="flex items-center gap-3 py-4 px-4 rounded-2xl font-bold text-red-500 hover:bg-red-50 transition-colors">
+                                    <div className="w-8 h-8 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
+                                        <FaSignOutAlt size={14} />
+                                    </div>
+                                    <span>Logout Account</span>
+                                </button>
+                            </li>
+                        </ul>
                     </div>
                 </header>
 

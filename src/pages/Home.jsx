@@ -11,6 +11,8 @@ import Spinner from "../components/Spinner";
 import StatsSection from "../components/StatsSection";
 import TestimonialsSection from "../components/TestimonialsSection";
 import NewsletterSection from "../components/NewsletterSection";
+import FAQSection from "../components/FAQSection";
+import FeaturedCollection from "../components/FeaturedCollection";
 import useAxios from "../Hook/useAxios";
 
 const Home = () => {
@@ -119,11 +121,13 @@ const Home = () => {
         )}
       </section>
 
+      <FeaturedCollection />
       <TopArtists />
       <CommunityHighlights />
       <ArtGallery />
       <StatsSection />
       <TestimonialsSection />
+      <FAQSection />
       <NewsletterSection />
     </div>
   );

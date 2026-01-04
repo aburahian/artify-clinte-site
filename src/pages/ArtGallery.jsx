@@ -16,7 +16,8 @@ const ArtGallery = () => {
         setLoading(true);
         const res = await axiosInstance.get("artworks");
 
-        const galleryImages = res.data.map((art) => ({
+        const items = res.data?.data || [];
+        const galleryImages = items.map((art) => ({
           original: art.image,
           thumbnail: art.image,
           description: `${art.title} by ${art.artistName || "Unknown"}`,

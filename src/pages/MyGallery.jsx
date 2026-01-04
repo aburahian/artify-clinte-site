@@ -23,9 +23,9 @@ const MyGallery = () => {
     if (!user) return;
     setLoading(true);
     axiosInstance
-      .get(`/my-artworks?artistEmail=${user.email}`)
+      .get(`/my-artworks?artistEmail=${user.email}&limit=100`) // Fetch all for now or implement frontend pagination later
       .then((res) => {
-        setArts(res.data);
+        setArts(res.data?.data || []);
         setLoading(false);
       })
       .catch((err) => {

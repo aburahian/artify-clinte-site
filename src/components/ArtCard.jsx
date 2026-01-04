@@ -52,13 +52,25 @@ const ArtCard = ({ art }) => {
       </div>
 
       <div className="p-8">
-        <div className="mb-4">
+        <div className="mb-6">
           <h3 className="font-black text-2xl text-base-content truncate group-hover:text-primary transition-colors leading-tight">
             {art.title}
           </h3>
-          <p className="text-sm text-base-content/50 font-bold mt-1">
+          <p className="text-sm text-base-content/50 font-bold mt-1 mb-4">
             by <span className="text-secondary italic">@{art.artistName || "UnknownArtist"}</span>
           </p>
+          <p className="text-sm text-base-content/60 font-medium line-clamp-2 leading-relaxed">
+            {art.description || "Experimental visual expression exploring themes of nature and technology."}
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2 mb-6">
+          <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 bg-base-200 rounded-md text-base-content/40">
+            {art.medium || "Mixed Media"}
+          </span>
+          <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-md ${art.visibility === 'public' ? 'bg-emerald-100 text-emerald-600' : 'bg-orange-100 text-orange-600'}`}>
+            {art.visibility === 'public' ? 'Available' : 'Reserved'}
+          </span>
         </div>
 
         <div className="flex items-center justify-between pt-6 border-t border-base-100">
@@ -67,6 +79,10 @@ const ArtCard = ({ art }) => {
             <span className="text-xl font-black text-primary">
               {art.price > 0 ? `$${art.price}` : 'Accepting Bids'}
             </span>
+          </div>
+          <div className="flex flex-col items-end opacity-40">
+            <span className="text-[10px] font-black uppercase tracking-widest">Listed</span>
+            <span className="text-[10px] font-bold">{new Date(art.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
           </div>
           <Link
             to={`/arts/art/${art._id}`}
