@@ -30,23 +30,7 @@ const Login = () => {
       });
   };
 
-  const handleDemoLogin = (role) => {
-    const email = role === 'admin' ? 'admin@artify.com' : 'user@artify.com';
-    const password = 'Password123!';
 
-    setLoading(true);
-    signInUser(email, password)
-      .then((res) => {
-        setUser(res.user);
-        setLoading(false);
-        toast.success(`Logged in as Demo ${role.charAt(0).toUpperCase() + role.slice(1)}! 🚀`);
-        navigate("/");
-      })
-      .catch(() => {
-        setLoading(false);
-        toast.error("Demo login failed. Please use manual registration.");
-      });
-  };
 
   const handleGoogleSignup = () => {
     setLoading(true);
@@ -119,23 +103,7 @@ const Login = () => {
           </button>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-base-200">
-          <p className="text-center text-xs font-bold text-base-content/40 uppercase tracking-widest mb-4">Demo Credentials</p>
-          <div className="flex gap-4">
-            <button
-              onClick={() => handleDemoLogin('user')}
-              className="flex-1 h-12 bg-base-200 hover:bg-base-300 rounded-xl text-xs font-black uppercase tracking-tighter transition-colors"
-            >
-              Demo User
-            </button>
-            <button
-              onClick={() => handleDemoLogin('admin')}
-              className="flex-1 h-12 bg-base-200 hover:bg-base-300 rounded-xl text-xs font-black uppercase tracking-tighter transition-colors"
-            >
-              Demo Admin
-            </button>
-          </div>
-        </div>
+
 
         <p className="mt-10 text-center text-sm font-medium text-base-content/60">
           New to Artify?{" "}
